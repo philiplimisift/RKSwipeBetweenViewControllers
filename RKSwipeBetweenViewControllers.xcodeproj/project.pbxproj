@@ -20,7 +20,7 @@
 		992F23AD1985BD6300320CAA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 992F238F1985BD6300320CAA /* UIKit.framework */; };
 		992F23B51985BD6400320CAA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 992F23B31985BD6300320CAA /* InfoPlist.strings */; };
 		992F23B71985BD6400320CAA /* RKSwipeBetweenViewControllersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 992F23B61985BD6400320CAA /* RKSwipeBetweenViewControllersTests.m */; };
-		992F23C21985BDD500320CAA /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 992F23C11985BDD500320CAA /* RKSwipeBetweenViewControllers.m */; };
+		D44AF3D61CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = D44AF3D51CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +51,8 @@
 		992F23B21985BD6300320CAA /* RKSwipeBetweenViewControllersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RKSwipeBetweenViewControllersTests-Info.plist"; sourceTree = "<group>"; };
 		992F23B41985BD6300320CAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		992F23B61985BD6400320CAA /* RKSwipeBetweenViewControllersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllersTests.m; sourceTree = "<group>"; };
-		992F23C01985BDD500320CAA /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = SOURCE_ROOT; };
-		992F23C11985BDD500320CAA /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = SOURCE_ROOT; };
+		D44AF3D41CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
+		D44AF3D51CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,8 +116,8 @@
 				992F239B1985BD6300320CAA /* AppDelegate.m */,
 				992F239D1985BD6300320CAA /* Main.storyboard */,
 				992F23A31985BD6300320CAA /* Images.xcassets */,
-				992F23C01985BDD500320CAA /* RKSwipeBetweenViewControllers.h */,
-				992F23C11985BDD500320CAA /* RKSwipeBetweenViewControllers.m */,
+				D44AF3D41CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.h */,
+				D44AF3D51CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.m */,
 				992F23921985BD6300320CAA /* Supporting Files */,
 			);
 			path = RKSwipeBetweenViewControllers;
@@ -252,7 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				992F23C21985BDD500320CAA /* RKSwipeBetweenViewControllers.m in Sources */,
+				D44AF3D61CC0C7E9002518F4 /* RKSwipeBetweenViewControllers.m in Sources */,
 				992F239C1985BD6300320CAA /* AppDelegate.m in Sources */,
 				992F23981985BD6300320CAA /* main.m in Sources */,
 			);
