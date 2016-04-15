@@ -28,7 +28,9 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 @property (nonatomic) NSInteger currentPageIndex;
 @property (nonatomic) BOOL isPageScrollingFlag; //%%% prevents scrolling / segment tap crash
 @property (nonatomic) BOOL hasAppearedFlag; //%%% prevents reloading (maintains state)
-
+@property (nonatomic) NSMutableArray *buttons;
+@property (nonatomic) UIColor *buttonSelectedColor;
+@property (nonatomic) UIColor *buttonUnselectedColor;
 @end
 
 @implementation RKSwipeBetweenViewControllers
@@ -37,7 +39,6 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 @synthesize pageController;
 @synthesize navigationView;
 @synthesize buttonText;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -69,24 +70,44 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 
 //%%% sets up the tabs using a loop.  You can take apart the loop to customize individual buttons, but remember to tag the buttons.  (button.tag=0 and the second button.tag=1, etc)
 -(void)setupSegmentButtons {
-    navigationView = [[UIView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.navigationBar.frame.size.height)];
+    self.buttonSelectedColor = [UIColor whiteColor];
+    self.buttonUnselectedColor = [UIColor grayColor];
     
+    navigationView = [[UIView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.navigationBar.frame.size.height)];
+    self.buttons = [NSMutableArray array];
     NSInteger numControllers = [viewControllerArray count];
     
     if (!buttonText) {
          buttonText = [[NSArray alloc]initWithObjects: @"first",@"second",@"third",@"fourth",@"etc",@"etc",@"etc",@"etc",nil]; //%%%buttontitle
     }
-    
     for (int i = 0; i<numControllers; i++) {
         UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(X_BUFFER+i*(self.view.frame.size.width-2*X_BUFFER)/numControllers-X_OFFSET, Y_BUFFER, (self.view.frame.size.width-2*X_BUFFER)/numControllers, HEIGHT)];
         [navigationView addSubview:button];
         
         button.tag = i; //%%% IMPORTANT: if you make your own custom buttons, you have to tag them appropriately
-        button.backgroundColor = [UIColor colorWithRed:0.03 green:0.07 blue:0.08 alpha:1];//%%% buttoncolors
-        
+//        button.backgroundColor = [UIColor colorWithRed:0.03 green:0.07 blue:0.08 alpha:1];//%%% buttoncolors
+
         [button addTarget:self action:@selector(tapSegmentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
         [button setTitle:[buttonText objectAtIndex:i] forState:UIControlStateNormal]; //%%%buttontitle
+        
+        [button setTitleColor:self.buttonUnselectedColor forState:UIControlStateNormal];
+        
+        button.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium" size:16];
+        [self.buttons addObject:button];
+    }
+    
+    // set default color
+    [self.buttons[0] setTitleColor:self.buttonSelectedColor forState:UIControlStateNormal];
+    
+    if (self.buttons.count == 2) {
+        
+        
+        ((UIButton *)self.buttons[0]).contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        ((UIButton *)self.buttons[0]).titleEdgeInsets = UIEdgeInsetsMake(0,3,0,0);
+
+        ((UIButton *)self.buttons[1]).contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        ((UIButton *)self.buttons[0]).titleEdgeInsets = UIEdgeInsetsMake(0,0,0,3);
     }
     
     pageController.navigationController.navigationBar.topItem.titleView = navigationView;
@@ -126,7 +147,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 //%%% sets up the selection bar under the buttons on the navigation bar
 -(void)setupSelector {
     selectionBar = [[UIView alloc]initWithFrame:CGRectMake(X_BUFFER-X_OFFSET, SELECTOR_Y_BUFFER,(self.view.frame.size.width-2*X_BUFFER)/[viewControllerArray count], SELECTOR_HEIGHT)];
-    selectionBar.backgroundColor = [UIColor greenColor]; //%%% sbcolor
+    selectionBar.backgroundColor = [UIColor clearColor]; //%%% sbcolor
     selectionBar.alpha = 0.8; //%%% sbalpha
     [navigationView addSubview:selectionBar];
 }
@@ -173,7 +194,6 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 //so there's a loop that shows every view controller in the array up to the one you selected
 //eg: if you're on page 1 and you click tab 3, then it shows you page 2 and then page 3
 -(void)tapSegmentButtonAction:(UIButton *)button {
-    
     if (!self.isPageScrollingFlag) {
         
         NSInteger tempIndex = self.currentPageIndex;
@@ -207,6 +227,14 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
             }
         }
     }
+    [self updateButtonsColorSelected:button];
+}
+
+- (void)updateButtonsColorSelected:(UIButton *)selectedButton {
+    for (UIButton *button in self.buttons) {
+        [button setTitleColor:self.buttonUnselectedColor forState:UIControlStateNormal];
+    }
+    [selectedButton setTitleColor:self.buttonSelectedColor forState:UIControlStateNormal];
 }
 
 //%%% makes sure the nav bar is always aware of what page you're on
@@ -268,8 +296,11 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     if (completed) {
         self.currentPageIndex = [viewControllerArray indexOfObject:[pageViewController.viewControllers lastObject]];
+//        NSLog(@"%ld",self.currentPageIndex);
+        [self updateButtonsColorSelected:self.buttons[self.currentPageIndex]];
     }
 }
+
 
 #pragma mark - Scroll View Delegate
 
